@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useAppContext } from '@/contexts/AppContext';
 import { useIsMobile } from '@/hooks/use-mobile';
 import Header from './Header';
@@ -13,24 +13,91 @@ const AppLayout: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filters, setFilters] = useState<any>({});
   const itemsPerPage = 12;
 
-  const filteredProducts = activeCategory === 'all' 
-    ? products 
-    : products.filter(product => product.category === activeCategory);
+  // Filter and search products
+  const filteredProducts = useMemo(() => {
+    let filtered = products;
+
+    // Category filter
+    if (activeCategory !== 'all') {
+      filtered = filtered.filter(product => product.category === activeCategory);
+    }
+
+    // Search query
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(product =>
+        product.name.toLowerCase().includes(query) ||
+        product.brand.toLowerCase().includes(query) ||
+        product.category.toLowerCase().includes(query)
+      );
+    }
+
+    // Additional filters
+    if (filters.category && filters.category !== activeCategory) {
+      filtered = filtered.filter(product => product.category === filters.category);
+    }
+
+    if (filters.priceRange) {
+      const [min, max] = filters.priceRange.split('-').map(Number);
+      filtered = filtered.filter(product => {
+        if (max) {
+          return product.price >= min && product.price <= max;
+        } else {
+          return product.price >= min;
+        }
+      });
+    }
+
+    if (filters.rating) {
+      filtered = filtered.filter(product => product.rating >= filters.rating);
+    }
+
+    // Sort products
+    if (filters.sortBy) {
+      filtered = [...filtered].sort((a, b) => {
+        switch (filters.sortBy) {
+          case 'price-low':
+            return a.price - b.price;
+          case 'price-high':
+            return b.price - a.price;
+          case 'rating':
+            return b.rating - a.rating;
+          case 'newest':
+            return (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0);
+          default:
+            return 0;
+        }
+      });
+    }
+
+    return filtered;
+  }, [products, activeCategory, searchQuery, filters]);
 
   const handleCategoryChange = (categoryId: string) => {
     setLoading(true);
     setActiveCategory(categoryId);
-    setCurrentPage(1); // Reset to first page when category changes
-    // Simulate loading
+    setCurrentPage(1);
+    setFilters(prev => ({ ...prev, category: categoryId }));
     setTimeout(() => setLoading(false), 500);
   };
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    // Scroll to top when page changes
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    setCurrentPage(1);
+  };
+
+  const handleFilterChange = (newFilters: any) => {
+    setFilters(newFilters);
+    setCurrentPage(1);
   };
 
   const sidebarContent = (
@@ -45,7 +112,11 @@ const AppLayout: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-50">
-      <Header onMenuClick={toggleSidebar} />
+      <Header 
+        onMenuClick={toggleSidebar}
+        onSearch={handleSearch}
+        onFilterChange={handleFilterChange}
+      />
       
       <div className="container mx-auto px-4 py-6">
         <div className="flex gap-6">
@@ -73,6 +144,7 @@ const AppLayout: React.FC = () => {
               </h2>
               <p className="text-gray-600">
                 {filteredProducts.length} products found
+                {searchQuery && ` for "${searchQuery}"`}
               </p>
             </div>
             
