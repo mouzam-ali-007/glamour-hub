@@ -34,7 +34,7 @@ export const products: Product[] = [
     brand: 'Glamour Pro',
     price: 24.99,
     originalPrice: 29.99,
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5JJ2lB2Aw_mXn20_APBSRTkSS5Fu62Bx2ew&s',
+    image: '/lipstick.jpg',
     category: 'lipstick',
     rating: 4.8,
     isNew: true,
@@ -66,7 +66,7 @@ export const products: Product[] = [
     name: 'Volume Boost Mascara',
     brand: 'Lash Perfect',
     price: 18.50,
-    image: '/placeholder.svg',
+    image: '/scent.jpg',
     category: 'mascara',
     rating: 4.7
   },
@@ -85,7 +85,7 @@ export const products: Product[] = [
     name: 'Classic Red Lipstick',
     brand: 'Timeless Beauty',
     price: 28.99,
-    image: '/placeholder.svg',
+    image: '/productSet.jpg',
     category: 'lipstick',
     rating: 4.8
   },
@@ -95,7 +95,7 @@ export const products: Product[] = [
     brand: 'Pro Makeup',
     price: 38.00,
     originalPrice: 42.00,
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCD-3SNWuVQLwUoh6O-_ttZYRJ7_63zEJ9Mg&s',
+    image: '/foundation.jpg',
     category: 'foundation',
     rating: 4.4,
     isSale: true
