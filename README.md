@@ -15,7 +15,7 @@ This document outlines the cart functionality implementation using Redux Toolkit
 ## Features Implemented
 
 ### 1. Add to Cart
-## 21.06
+## 21.06..
 - **Location**: `src/components/ProductCard.tsx`
 - **Functionality**: Clicking "Add to Cart" button adds the product to the cart
 - **Features**:
