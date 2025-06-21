@@ -2,10 +2,10 @@ import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Search, ShoppingBag, Heart, User, Menu } from "lucide-react";
+import { Search, Heart, User, Menu } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import UserDropdownMenu from "./UserDropDownMenu";
-import ShoppingBagDropdown from "./ShoppingBag";
+import ShoppingBag from "./ShoppingBag";
 import FavouriteDropdown from "./Favourite";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { logout } from "@/store/slices/authSlice";
@@ -16,9 +16,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const [showCartMenu, setShowCartMenu] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
-  const cartMenuRef = useRef<HTMLDivElement>(null);
 
   // Inside Header component
   const [showFavMenu, setShowFavMenu] = useState(false);
@@ -32,13 +30,6 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
   const favourites = [
     { product: "Blush Palette", price: "4 USD" },
     { product: "Mascara Waterproof", price: "5 USD" },
-  ];
-
-  const products = [
-    { product: "Lipstick Matte", price: "5 USD" },
-    { product: "Eyeliner Pen", price: "3 USD" },
-    { product: "Compact Powder", price: "6 USD" },
-    { product: " Powder", price: "7 USD" },
   ];
 
   const handleSignOut = () => {
@@ -55,12 +46,6 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
         !userMenuRef.current.contains(event.target as Node)
       ) {
         setShowUserMenu(false);
-      }
-      if (
-        cartMenuRef.current &&
-        !cartMenuRef.current.contains(event.target as Node)
-      ) {
-        setShowCartMenu(false);
       }
       if (
         favMenuRef.current &&
@@ -123,7 +108,6 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
               onClick={() => {
                 setShowFavMenu((prev) => {
                   setShowUserMenu(false);
-                  setShowCartMenu(false);
                   return !prev;
                 });
               }}
@@ -141,33 +125,8 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
               />
             )}
 
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-pink-600 hover:text-pink-700 hover:bg-pink-50 relative"
-              onClick={() => {
-                setShowCartMenu((prev) => {
-                  setShowUserMenu(false);
-                  setShowFavMenu(false);
-                  return !prev;
-                });
-              }}
-            >
-              <ShoppingBag className="h-5 w-5" />
-              <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 bg-gradient-to-r from-pink-500 to-purple-500 text-xs">
-                {products.length}
-              </Badge>
-            </Button>
-
-            {showCartMenu && (
-              <ShoppingBagDropdown
-                items={products}
-                onViewCart={() => {
-                  setShowCartMenu(false);
-                  console.log("Navigating to full cart...");
-                }}
-              />
-            )}
+            {/* Shopping Bag with Redux integration */}
+            <ShoppingBag />
 
             <Button
               variant="ghost"
@@ -175,7 +134,6 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
               className="text-pink-600 hover:text-pink-700 hover:bg-pink-50"
               onClick={() => {
                 setShowUserMenu((prev) => {
-                  setShowCartMenu(false);
                   setShowFavMenu(false);
                   return !prev;
                 });
@@ -201,7 +159,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
             <Input
-              placeholder="Search products..."
+              placeholder="Search for products, brands..."
               className="pl-10 border-pink-200 focus:border-pink-400 focus:ring-pink-400"
             />
           </div>

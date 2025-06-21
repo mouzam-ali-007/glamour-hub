@@ -45,7 +45,7 @@ export const products: Product[] = [
     name: 'Flawless Coverage Foundation',
     brand: 'Beauty Base',
     price: 42.00,
-    image: '/placeholder.svg',
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCD-3SNWuVQLwUoh6O-_ttZYRJ7_63zEJ9Mg&s',
     category: 'foundation',
     rating: 4.6,
     isNew: false
@@ -56,7 +56,7 @@ export const products: Product[] = [
     brand: 'Color Dreams',
     price: 35.99,
     originalPrice: 45.99,
-    image: '/placeholder.svg',
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7mmFc4RVwCCmKezmkjR6WQHUdCbgo8g7VYw&s',
     category: 'eyeshadow',
     rating: 4.9,
     isSale: true
@@ -95,7 +95,7 @@ export const products: Product[] = [
     brand: 'Pro Makeup',
     price: 38.00,
     originalPrice: 42.00,
-    image: '/placeholder.svg',
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCD-3SNWuVQLwUoh6O-_ttZYRJ7_63zEJ9Mg&s',
     category: 'foundation',
     rating: 4.4,
     isSale: true

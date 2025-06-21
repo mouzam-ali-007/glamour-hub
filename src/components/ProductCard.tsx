@@ -3,6 +3,10 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Heart, ShoppingBag } from 'lucide-react';
+import { useDispatch } from 'react-redux';
+import { addToCart, openCart } from '@/store/slices/cartSlice';
+import { AppDispatch } from '@/store/store';
+import { toast } from 'sonner';
 
 interface Product {
   id: number;
@@ -22,6 +26,14 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+  const dispatch = useDispatch<AppDispatch>();
+
+  const handleAddToCart = () => {
+    dispatch(addToCart(product));
+    dispatch(openCart());
+    toast.success(`${product.name} added to cart!`);
+  };
+
   return (
     <Card className="group overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-pink-50 to-purple-50">
       <div className="relative overflow-hidden">
@@ -58,7 +70,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               <span className="text-sm text-gray-500 line-through">${product.originalPrice}</span>
             )}
           </div>
-          <Button className="w-full bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white">
+          <Button 
+            className="w-full bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white"
+            onClick={handleAddToCart}
+          >
             <ShoppingBag className="h-4 w-4 mr-2" />
             Add to Cart
           </Button>
