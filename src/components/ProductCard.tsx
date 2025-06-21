@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -27,15 +28,24 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent card click when clicking add to cart
     dispatch(addToCart(product));
     dispatch(openCart());
     toast.success(`${product.name} added to cart!`);
   };
 
+  const handleCardClick = () => {
+    navigate(`/product/${product.id}`);
+  };
+
   return (
-    <Card className="group overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-pink-50 to-purple-50">
+    <Card 
+      className="group overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-pink-50 to-purple-50 cursor-pointer"
+      onClick={handleCardClick}
+    >
       <div className="relative overflow-hidden">
         <img
           src={product.image}
@@ -56,6 +66,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           size="icon"
           variant="ghost"
           className="absolute top-2 right-2 bg-white/80 hover:bg-white text-pink-600 hover:text-pink-700"
+          onClick={(e) => e.stopPropagation()} // Prevent card click
         >
           <Heart className="h-4 w-4" />
         </Button>
