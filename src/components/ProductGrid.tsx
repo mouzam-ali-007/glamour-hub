@@ -1,5 +1,6 @@
 import React from 'react';
 import ProductCard from './ProductCard';
+import Pagination from './Pagination';
 
 interface Product {
   id: number;
@@ -17,22 +18,39 @@ interface Product {
 interface ProductGridProps {
   products: Product[];
   loading?: boolean;
+  currentPage?: number;
+  itemsPerPage?: number;
+  onPageChange?: (page: number) => void;
 }
 
-const ProductGrid: React.FC<ProductGridProps> = ({ products, loading }) => {
+const ProductGrid: React.FC<ProductGridProps> = ({ 
+  products, 
+  loading, 
+  currentPage = 1, 
+  itemsPerPage = 12,
+  onPageChange 
+}) => {
+  const totalItems = products.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentProducts = products.slice(startIndex, endIndex);
+
   if (loading) {
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {Array.from({ length: 8 }).map((_, index) => (
-          <div key={index} className="animate-pulse">
-            <div className="bg-gradient-to-br from-pink-100 to-purple-100 rounded-lg h-48 mb-4"></div>
-            <div className="space-y-2">
-              <div className="h-4 bg-pink-200 rounded w-3/4"></div>
-              <div className="h-4 bg-pink-200 rounded w-1/2"></div>
-              <div className="h-6 bg-pink-200 rounded w-1/4"></div>
+      <div className="space-y-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {Array.from({ length: itemsPerPage }).map((_, index) => (
+            <div key={index} className="animate-pulse">
+              <div className="bg-gradient-to-br from-pink-100 to-purple-100 rounded-lg h-48 mb-4"></div>
+              <div className="space-y-2">
+                <div className="h-4 bg-pink-200 rounded w-3/4"></div>
+                <div className="h-4 bg-pink-200 rounded w-1/2"></div>
+                <div className="h-6 bg-pink-200 rounded w-1/4"></div>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     );
   }
@@ -50,10 +68,22 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products, loading }) => {
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-      {products.map((product) => (
-        <ProductCard key={product.id} product={product} />
-      ))}
+    <div className="space-y-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {currentProducts.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
+      
+      {onPageChange && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={onPageChange}
+          totalItems={totalItems}
+          itemsPerPage={itemsPerPage}
+        />
+      )}
     </div>
   );
 };

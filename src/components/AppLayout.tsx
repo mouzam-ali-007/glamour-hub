@@ -11,7 +11,9 @@ const AppLayout: React.FC = () => {
   const { sidebarOpen, toggleSidebar } = useAppContext();
   const isMobile = useIsMobile();
   const [activeCategory, setActiveCategory] = useState('all');
+  const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const itemsPerPage = 12;
 
   const filteredProducts = activeCategory === 'all' 
     ? products 
@@ -20,8 +22,15 @@ const AppLayout: React.FC = () => {
   const handleCategoryChange = (categoryId: string) => {
     setLoading(true);
     setActiveCategory(categoryId);
+    setCurrentPage(1); // Reset to first page when category changes
     // Simulate loading
     setTimeout(() => setLoading(false), 500);
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    // Scroll to top when page changes
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const sidebarContent = (
@@ -67,7 +76,13 @@ const AppLayout: React.FC = () => {
               </p>
             </div>
             
-            <ProductGrid products={filteredProducts} loading={loading} />
+            <ProductGrid 
+              products={filteredProducts} 
+              loading={loading}
+              currentPage={currentPage}
+              itemsPerPage={itemsPerPage}
+              onPageChange={handlePageChange}
+            />
           </div>
         </div>
       </div>
