@@ -4,9 +4,10 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Heart, ShoppingBag } from 'lucide-react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, openCart } from '@/store/slices/cartSlice';
-import { AppDispatch } from '@/store/store';
+import { toggleFavourites } from '@/store/slices/favouritesSlice';
+import { AppDispatch, RootState } from '@/store/store';
 import { toast } from 'sonner';
 
 interface Product {
@@ -29,12 +30,27 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  
+  // Get favourites from Redux store
+  const favourites = useSelector((state: RootState) => state.favourites.items);
+  const isFavourite = favourites.some(item => item.id === product.id);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent card click when clicking add to cart
     dispatch(addToCart(product));
     dispatch(openCart());
     toast.success(`${product.name} added to cart!`);
+  };
+
+  const handleToggleFavourite = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent card click when clicking heart
+    dispatch(toggleFavourites(product));
+    
+    if (isFavourite) {
+      toast.success(`${product.name} removed from favourites!`);
+    } else {
+      toast.success(`${product.name} added to favourites!`);
+    }
   };
 
   const handleCardClick = () => {
@@ -65,10 +81,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <Button
           size="icon"
           variant="ghost"
-          className="absolute top-2 right-2 bg-white/80 hover:bg-white text-pink-600 hover:text-pink-700"
-          onClick={(e) => e.stopPropagation()} // Prevent card click
+          className={`absolute top-2 right-2 transition-all duration-200 ${
+            isFavourite 
+              ? 'bg-pink-100 text-pink-600 hover:bg-pink-200' 
+              : 'bg-white/80 hover:bg-white text-gray-600 hover:text-pink-600'
+          }`}
+          onClick={handleToggleFavourite}
         >
-          <Heart className="h-4 w-4" />
+          <Heart className={`h-4 w-4 ${isFavourite ? 'fill-current' : ''}`} />
         </Button>
       </div>
       <CardContent className="p-4">
