@@ -51,7 +51,6 @@ const ProductDetails: React.FC = () => {
     for (let i = 0; i < quantity; i++) {
       dispatch(addToCart(product));
     }
-    dispatch(openCart());
     toast.success(`${quantity} ${quantity === 1 ? 'item' : 'items'} added to cart!`);
   };
 
