@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Heart, ShoppingBag } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, openCart } from '@/store/slices/cartSlice';
-import { toggleFavourites } from '@/store/slices/favouritesSlice';
+import { toggleFavourites, addRecentlyViewed } from '@/store/slices/favouritesSlice';
 import { AppDispatch, RootState } from '@/store/store';
 import { toast } from 'sonner';
 import {
@@ -67,6 +67,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   };
 
   const handleCardClick = () => {
+    dispatch(addRecentlyViewed(product));
     navigate(`/product/${product.id}`);
   };
 

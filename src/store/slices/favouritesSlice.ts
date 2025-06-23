@@ -65,4 +65,34 @@ export const {
   clearFavourites,
 } = favouritesSlice.actions;
 
-export default favouritesSlice.reducer; 
+export default favouritesSlice.reducer;
+
+// Recently Viewed Slice
+interface RecentlyViewedState {
+  items: Product[];
+}
+
+const recentlyViewedInitialState: RecentlyViewedState = {
+  items: [],
+};
+
+const recentlyViewedSlice = createSlice({
+  name: 'recentlyViewed',
+  initialState: recentlyViewedInitialState,
+  reducers: {
+    addRecentlyViewed: (state, action: PayloadAction<Product>) => {
+      // Remove if already exists
+      state.items = state.items.filter(item => item.id !== action.payload.id);
+      // Add to front
+      state.items.unshift(action.payload);
+      // Limit to 10
+      if (state.items.length > 10) state.items = state.items.slice(0, 10);
+    },
+    clearRecentlyViewed: (state) => {
+      state.items = [];
+    },
+  },
+});
+
+export const { addRecentlyViewed, clearRecentlyViewed } = recentlyViewedSlice.actions;
+export const recentlyViewedReducer = recentlyViewedSlice.reducer; 
