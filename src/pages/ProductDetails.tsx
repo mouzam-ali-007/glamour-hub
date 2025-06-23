@@ -20,6 +20,7 @@ import { products } from '@/data/mockData';
 import { addToCart, openCart } from '@/store/slices/cartSlice';
 import { AppDispatch } from '@/store/store';
 import { toast } from 'sonner';
+import { Review } from '@/data/mockData';
 
 const ProductDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -27,6 +28,10 @@ const ProductDetails: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const [reviews, setReviews] = useState<Review[]>(products.find(p => p.id === Number(id))?.reviews || []);
+  const [reviewRating, setReviewRating] = useState(0);
+  const [reviewComment, setReviewComment] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
   // Find the product by ID
   const product = products.find(p => p.id === Number(id));
@@ -67,6 +72,26 @@ const ProductDetails: React.FC = () => {
     product.image,
     product.image
   ];
+
+  const handleReviewSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!reviewRating || !reviewComment.trim()) return;
+    setSubmitting(true);
+    setTimeout(() => {
+      setReviews([
+        ...reviews,
+        {
+          id: `r${Date.now()}`,
+          user: 'Guest', // In real app, use logged-in user
+          rating: reviewRating,
+          comment: reviewComment.trim(),
+        },
+      ]);
+      setReviewRating(0);
+      setReviewComment('');
+      setSubmitting(false);
+    }, 500);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -263,6 +288,64 @@ const ProductDetails: React.FC = () => {
                 that will enhance your beauty routine. Whether you're a makeup enthusiast or a professional artist, 
                 this versatile product is designed to meet your needs and exceed your expectations.
               </p>
+            </div>
+
+            <Separator />
+
+            {/* Product Reviews & Ratings */}
+            <div className="space-y-4 mt-8">
+              <h3 className="text-lg font-semibold text-gray-900">Product Reviews & Ratings</h3>
+              {/* Reviews List */}
+              {reviews.length === 0 ? (
+                <p className="text-gray-500">No reviews yet. Be the first to review this product!</p>
+              ) : (
+                <div className="space-y-4">
+                  {reviews.map((review) => (
+                    <div key={review.id} className="bg-gray-50 rounded-lg p-4 border border-gray-100">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="font-semibold text-pink-600">{review.user}</span>
+                        <span className="flex items-center">
+                          {[...Array(5)].map((_, i) => (
+                            <Star key={i} className={`h-4 w-4 ${i < review.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} />
+                          ))}
+                        </span>
+                      </div>
+                      <p className="text-gray-700 text-sm">{review.comment}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {/* Add Review Form */}
+              <form onSubmit={handleReviewSubmit} className="mt-6 bg-white rounded-lg p-4 border border-gray-100 space-y-3">
+                <div className="flex items-center gap-2">
+                  <span className="font-medium text-gray-700">Your Rating:</span>
+                  {[1,2,3,4,5].map((star) => (
+                    <button
+                      type="button"
+                      key={star}
+                      onClick={() => setReviewRating(star)}
+                      className="focus:outline-none"
+                    >
+                      <Star className={`h-6 w-6 ${reviewRating >= star ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} />
+                    </button>
+                  ))}
+                </div>
+                <textarea
+                  className="w-full border border-gray-200 rounded-lg p-2 text-sm focus:border-pink-400 focus:ring-pink-400"
+                  rows={3}
+                  placeholder="Write your review..."
+                  value={reviewComment}
+                  onChange={e => setReviewComment(e.target.value)}
+                  required
+                />
+                <Button
+                  type="submit"
+                  className="bg-gradient-to-r from-pink-500 to-purple-500 text-white"
+                  disabled={submitting || !reviewRating || !reviewComment.trim()}
+                >
+                  {submitting ? 'Submitting...' : 'Submit Review'}
+                </Button>
+              </form>
             </div>
           </div>
         </div>

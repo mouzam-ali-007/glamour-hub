@@ -133,3 +133,11 @@ interface CartItem extends Product {
 4. **Bulk Actions**: Select multiple items for removal
 5. **Cart Sharing**: Share cart with others
 6. **Inventory Check**: Prevent adding out-of-stock items 
+
+
+1. Product Quick View
+Allow users to preview product details in a modal without leaving the product grid.
+Show images, price, description, and add-to-cart/favourite buttons.
+
+2. Recently Viewed Products
+Show a carousel of products the user recently viewed for easy navigation back.

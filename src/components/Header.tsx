@@ -12,6 +12,9 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { logout } from "@/store/slices/authSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import { Switch } from './ui/switch';
+import { useTheme } from './theme-provider';
+import { Moon, Sun } from 'lucide-react';
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -32,6 +35,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick, onSearch, onFilterChange }
   const { user, isLoggedIn } = useAppSelector((state) => state.auth);
   const favourites = useSelector((state: RootState) => state.favourites.items);
   const navigate = useNavigate();
+  const { theme, setTheme } = useTheme();
 
   const handleSignOut = () => {
     dispatch(logout());
@@ -73,7 +77,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick, onSearch, onFilterChange }
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-pink-100 shadow-sm">
+    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-pink-100 shadow-sm dark:bg-background dark:border-gray-800">
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           {/* Mobile menu button */}
@@ -101,7 +105,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick, onSearch, onFilterChange }
             <SearchBar
               onSearch={handleSearch}
               onFilterChange={handleFilterChange}
-              placeholder="Search for products..."
+              placeholder="Search for products, brands, or categories..."
             />
           </div>
 
@@ -110,6 +114,16 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick, onSearch, onFilterChange }
             className="flex items-center space-x-2 relative"
             ref={userMenuRef}
           >
+            {/* Dark mode toggle */}
+            <div className="flex items-center mr-2">
+              <Sun className={`h-5 w-5 mr-1 ${theme === 'light' ? 'text-yellow-400' : 'text-gray-400'}`} />
+              <Switch
+                checked={theme === 'dark'}
+                onCheckedChange={(checked) => setTheme(checked ? 'dark' : 'light')}
+                aria-label="Toggle dark mode"
+              />
+              <Moon className={`h-5 w-5 ml-1 ${theme === 'dark' ? 'text-purple-400' : 'text-gray-400'}`} />
+            </div>
             {/* Favourites Button with Badge */}
             <div className="relative" ref={favMenuRef}>
               <Button
@@ -140,10 +154,8 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick, onSearch, onFilterChange }
                 />
               )}
             </div>
-
             {/* Shopping Bag with Redux integration */}
             <ShoppingBag />
-
             <Button
               variant="ghost"
               size="icon"
@@ -157,7 +169,6 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick, onSearch, onFilterChange }
             >
               <User className="h-5 w-5" />
             </Button>
-
             {/* User Dropdown */}
             {showUserMenu && (
               <UserDropdownMenu
@@ -169,13 +180,12 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick, onSearch, onFilterChange }
             )}
           </div>
         </div>
-
         {/* Mobile search bar */}
         <div className="md:hidden mt-3">
           <SearchBar
             onSearch={handleSearch}
             onFilterChange={handleFilterChange}
-            placeholder="Search for products..."
+            placeholder="Search for products, brands, or categories..."
           />
         </div>
       </div>

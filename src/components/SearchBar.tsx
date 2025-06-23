@@ -85,7 +85,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   const handleFilterChange = (newFilters: Partial<SearchFilters>) => {
     const updatedFilters = { ...filters, ...newFilters };
     setFilters(updatedFilters);
-    onFilterChange?.(updatedFilters);
+    onFilterChange?.(updatedFilters);   
   };
 
   return (
