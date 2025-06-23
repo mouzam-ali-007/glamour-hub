@@ -133,3 +133,54 @@ interface CartItem extends Product {
 4. **Bulk Actions**: Select multiple items for removal
 5. **Cart Sharing**: Share cart with others
 6. **Inventory Check**: Prevent adding out-of-stock items 
+
+
+1. Product Quick View
+Allow users to preview product details in a modal without leaving the product grid.
+Show images, price, description, and add-to-cart/favourite buttons.
+2. Product Reviews & Ratings
+Let users leave reviews and rate products.
+Display average rating and review count on product cards and detail pages.
+3. Personalized Recommendations
+Show “You may also like” or “Recommended for you” sections based on user browsing/favourites/cart.
+4. Wishlist (Separate from Favourites)
+Allow users to create multiple wishlists (e.g., “Birthday”, “For Mom”, “Summer Looks”).
+Share wishlists with friends.
+5. Recently Viewed Products
+Show a carousel of products the user recently viewed for easy navigation back.
+6. Advanced Filters
+Add filters for color, finish (matte, glossy), skin type, brand, price range, etc.
+Use checkboxes, sliders, and color swatches for a modern UI.
+7. Product Comparison
+Let users select multiple products and compare their features, prices, and reviews side by side.
+8. Loyalty/Rewards Program
+Award points for purchases, reviews, and referrals.
+Let users redeem points for discounts or gifts.
+9. Social Sharing
+Add share buttons for products (WhatsApp, Instagram, Facebook, Twitter, etc.).
+Generate shareable product links.
+10. In-Stock Notifications
+Allow users to sign up for email/SMS alerts when out-of-stock products are available again.
+0. In-Stock Notifications
+Allow users to sign up for email/SMS alerts when out-of-stock products are available again.
+11. Gift Cards & Coupons
+Let users purchase and redeem digital gift cards.
+Add coupon code support at checkout.
+12. Live Chat Support
+Integrate a live chat widget for instant customer support.
+13. Order Tracking
+Let users track their orders with real-time status updates.
+Dark Mode
+Add a toggle for dark/light mode for better accessibility and user preference.
+15. Progressive Web App (PWA)
+Make your site installable on mobile devices for a native app-like experience.
+16. Augmented Reality (AR) Try-On
+Let users virtually try on lipstick shades or other products using their camera (using AR libraries).
+ Blog/Content Section
+Share beauty tips, tutorials, and product guides to drive SEO and engagement.
+18. Multi-language & Multi-currency Support
+Reach a global audience by supporting multiple languages and currencies.
+19. Referral Program
+Reward users for inviting friends who make a purchase.
+20. Accessibility Improvements
+Ensure your site is fully accessible (keyboard navigation, screen reader support, color contrast, etc.).
