@@ -105,7 +105,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick, onSearch, onFilterChange }
             <SearchBar
               onSearch={handleSearch}
               onFilterChange={handleFilterChange}
-              placeholder="Search for products, brands, or categories..."
+              placeholder="Search for products..."
             />
           </div>
 
@@ -185,7 +185,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick, onSearch, onFilterChange }
           <SearchBar
             onSearch={handleSearch}
             onFilterChange={handleFilterChange}
-            placeholder="Search for products, brands, or categories..."
+            placeholder="Search for products..."
           />
         </div>
       </div>
