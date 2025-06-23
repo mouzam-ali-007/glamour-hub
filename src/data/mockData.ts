@@ -9,6 +9,7 @@ export interface Product {
   rating: number;
   isNew?: boolean;
   isSale?: boolean;
+  reviews?: Review[];
 }
 
 export interface Category {
@@ -16,6 +17,13 @@ export interface Category {
   name: string;
   count: number;
   icon: string;
+}
+
+export interface Review {
+  id: string;
+  user: string;
+  rating: number;
+  comment: string;
 }
 
 export const categories: Category[] = [
@@ -221,7 +229,11 @@ const generateProducts = (): Product[] => {
         category,
         rating: Math.round((4.0 + Math.random() * 1.0) * 10) / 10,
         isNew: Math.random() > 0.8,
-        isSale
+        isSale,
+        reviews: i % 10 === 0 ? [
+          { id: 'r1', user: 'Alice', rating: 5, comment: 'Amazing product!' },
+          { id: 'r2', user: 'Bob', rating: 4, comment: 'Very good, would buy again.' }
+        ] : []
       });
     }
   });
