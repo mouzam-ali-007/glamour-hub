@@ -13,6 +13,7 @@ import {
   Clock,
   Star
 } from 'lucide-react';
+import LiveChat from './LiveChat';
 
 interface SearchBarProps {
   onSearch: (query: string) => void;
@@ -93,7 +94,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
       {/* Main Search Bar */}
       <div className="relative">
         <div className="relative">
-          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5 z-10 pointer-events-none" />
           <Input
             value={query}
             onChange={(e) => {
@@ -107,7 +108,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
             onFocus={() => setIsExpanded(true)}
             onKeyPress={handleKeyPress}
             placeholder={placeholder}
-            className="pl-12 pr-32 h-14 text-base border-2 border-pink-200 focus:border-pink-400 focus:ring-pink-400 rounded-2xl bg-white/90 backdrop-blur-sm shadow-lg placeholder:text-gray-400 placeholder:font-medium"
+            className="pl-12 pr-32 h-14 text-base border-2 border-pink-200 focus:border-pink-400 focus:ring-pink-400 rounded-2xl bg-white/90 backdrop-blur-sm shadow-lg placeholder:text-gray-400 placeholder:font-medium relative z-0"
           />
           
           {/* Clear and Filter buttons */}
@@ -147,6 +148,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
           Search
         </Button>
       </div>
+      
 
       {/* Expanded Search Results */}
       {isExpanded && (
@@ -331,6 +333,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
               </div>
             </div>
           </CardContent>
+        
         </Card>
       )}
     </div>

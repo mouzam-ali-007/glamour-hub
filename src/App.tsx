@@ -14,6 +14,8 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import NotFound from "./pages/NotFound";
 import ProductDetails from "./pages/ProductDetails";
+import OrderTracking from "./pages/OrderTracking";
+import LiveChat from "./components/LiveChat";
 
 const queryClient = new QueryClient();
 
@@ -23,7 +25,7 @@ const AuthInitializer: React.FC = () => {
 
   useEffect(() => {
     dispatch(checkAuthStatus());
-  }, [dispatch]);
+  }, [dispatch]); 
 
   return null;
 };
@@ -42,8 +44,10 @@ const App = () => (
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/product/:id" element={<ProductDetails />} />
+              <Route path="/orders" element={<OrderTracking />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
+            <LiveChat />
           </BrowserRouter>
         </TooltipProvider>
       </QueryClientProvider>

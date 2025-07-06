@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { Package } from "lucide-react";
 
 interface User {
   name: string;
@@ -28,6 +29,14 @@ const UserDropdownMenu: React.FC<UserDropdownMenuProps> = ({
             <p className="text-xs text-gray-500">{user.email}</p>
           </div>
           <hr className="border-pink-100" />
+          <Link
+            to="/orders"
+            className="flex items-center w-full text-left px-3 py-2 text-pink-600 hover:bg-pink-50 text-sm"
+            onClick={() => setShowUserMenu(false)}
+          >
+            <Package className="h-4 w-4 mr-2" />
+            Order Tracking
+          </Link>
           <Button
             variant="ghost"
             className="w-full justify-start px-3 py-2 text-pink-600 hover:bg-pink-50"

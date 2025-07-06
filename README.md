@@ -60,7 +60,7 @@ interface CartState {
 interface CartItem extends Product {
   quantity: number;   // Quantity of the item in cart
 }
-```
+
 
 ### Actions Available
 - `addToCart(product)` - Add product to cart
@@ -133,7 +133,6 @@ interface CartItem extends Product {
 4. **Bulk Actions**: Select multiple items for removal
 5. **Cart Sharing**: Share cart with others
 6. **Inventory Check**: Prevent adding out-of-stock items 
-
 
 1. Product Quick View
 Allow users to preview product details in a modal without leaving the product grid.

@@ -26,6 +26,7 @@ import {
 } from '@/store/slices/cartSlice';
 import { AppDispatch } from '@/store/store';
 import { toast } from 'sonner';
+import OrderTrackingWidget from './OrderTrackingWidget';
 
 const ShoppingBag: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -80,10 +81,13 @@ const ShoppingBag: React.FC = () => {
         
         <div className="flex flex-col flex-1 min-h-0">
           {cartItems.length === 0 ? (
-            <div className="flex-1 flex flex-col items-center justify-center text-center py-8 px-6">
-              <ShoppingBagIcon className="h-16 w-16 text-gray-300 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Your cart is empty</h3>
-              <p className="text-gray-500">Add some products to get started!</p>
+            <div className="flex-1 flex flex-col items-center justify-center text-center py-8 px-6 space-y-6">
+              <div>
+                <ShoppingBagIcon className="h-16 w-16 text-gray-300 mb-4" />
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Your cart is empty</h3>
+                <p className="text-gray-500">Add some products to get started!</p>
+              </div>
+              <OrderTrackingWidget className="w-full max-w-sm" />
             </div>
           ) : (
             <>
