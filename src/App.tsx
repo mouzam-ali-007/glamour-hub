@@ -16,6 +16,8 @@ import NotFound from "./pages/NotFound";
 import ProductDetails from "./pages/ProductDetails";
 import OrderTracking from "./pages/OrderTracking";
 import LiveChat from "./components/LiveChat";
+import Checkout from "./pages/Checkout";
+import OrderSuccess from "./pages/order-success";
 
 const queryClient = new QueryClient();
 
@@ -45,6 +47,8 @@ const App = () => (
               <Route path="/signup" element={<Signup />} />
               <Route path="/product/:id" element={<ProductDetails />} />
               <Route path="/orders" element={<OrderTracking />} />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/order-success" element={<OrderSuccess />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
             <LiveChat />

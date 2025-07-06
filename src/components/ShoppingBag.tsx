@@ -27,6 +27,7 @@ import {
 import { AppDispatch } from '@/store/store';
 import { toast } from 'sonner';
 import OrderTrackingWidget from './OrderTrackingWidget';
+import { useNavigate } from 'react-router-dom';
 
 const ShoppingBag: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -34,6 +35,7 @@ const ShoppingBag: React.FC = () => {
   const itemCount = useSelector(selectCartItemCount);
   const total = useSelector(selectCartTotal);
   const isOpen = useSelector(selectCartIsOpen);
+  const navigate = useNavigate();
 
   const handleRemoveItem = (id: number) => {
     dispatch(removeFromCart(id));
@@ -171,7 +173,13 @@ const ShoppingBag: React.FC = () => {
                     <Trash2 className="h-4 w-4 mr-2" />
                     Clear Cart
                   </Button>
-                  <Button className="flex-1 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600">
+                  <Button
+                    className="flex-1 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600"
+                    onClick={() => {
+                      dispatch(closeCart());
+                      navigate('/checkout');
+                    }}
+                  >
                     Checkout
                   </Button>
                 </div>
